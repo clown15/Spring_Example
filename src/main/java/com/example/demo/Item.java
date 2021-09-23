@@ -10,13 +10,26 @@ public class Item {
 
     private @Id String id;
     private String name;
-    private double price;
     private String description;
+    private double price;
     private String distributorRegion;
     private Date releaseDate;
     private int availableUnits;
     private Point location;
     private boolean active;
+
+    private Item() {}
+
+    Item(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    Item(String name, String description, double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 
     public String getDescription() {
         return this.description;
@@ -64,13 +77,6 @@ public class Item {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    private Item() {}
-
-    Item(String name, double price) {
-        this.name = name;
-        this.price = price;
     }
 
     public String getId() {

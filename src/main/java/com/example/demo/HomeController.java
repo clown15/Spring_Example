@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.reactive.result.view.Rendering;
 
@@ -21,11 +22,13 @@ public class HomeController {
     private ItemRepository itemRepository;
     private CartRepository cartRepository;
     private CartService cartService;
+    private InventoryService inventoryService;
 
-    public HomeController(ItemRepository itemRepository, CartRepository cartRepository, CartService cartService) {
+    public HomeController(ItemRepository itemRepository, CartRepository cartRepository, CartService cartService, InventoryService inventoryService) {
         this.itemRepository = itemRepository;
         this.cartRepository = cartRepository;
         this.cartService = cartService;
+        this.inventoryService = inventoryService;
     }
 
     @GetMapping
@@ -40,6 +43,17 @@ public class HomeController {
 								.defaultIfEmpty(new Cart("My Cart")))
 				.build());
 	}
+
+    @GetMapping("/search")
+    Mono<Rendering> search(
+        @RequestParam(required = false) String name,
+        @RequestParam(required = false) String description,
+        @RequestParam(required = false) Boolean useAnd) {
+            return Mono.just(Rendering.view("home2.html")
+                .modelAttribute("results", inventoryService.searchByExample(name,description,useAnd))
+                .modelAttribute("cart", this.cartRepository.findById("My Cart").defaultIfEmpty(new Cart("My Cart")))
+                .build());
+        }
 
     @PostMapping("/add/{id}")
     // @PathVariable 를 통해 {id} 자리에 들어오는 값을 추출해 id파라미터에 값을 주입한다.                                                                                                                                                               
