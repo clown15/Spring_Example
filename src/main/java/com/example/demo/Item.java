@@ -31,6 +31,11 @@ public class Item {
         this.price = price;
     }
 
+    Item(String id, String name, String description, double price) {
+        this(name,description, price);
+        this.id = id;
+    }
+
     public String getDescription() {
         return this.description;
     }
