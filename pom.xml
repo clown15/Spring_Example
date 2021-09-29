@@ -64,6 +64,11 @@
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver-sync</artifactId>
 		</dependency>
+		<!-- actuator -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -71,7 +76,16 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<layers>
+						<enabled>true</enabled>
+					</layers>
+				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+            </plugin>
 		</plugins>
 	</build>
 
