@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.reactive.result.view.Rendering;
 
@@ -60,6 +61,11 @@ public class HomeController {
     Mono<String> addToCart(@PathVariable String id) {
         return this.cartService.addToCart("My Cart", id)//
             .thenReturn("redirect:/");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    Mono<String> deleteItem(@PathVariable String id) {
+        return this.cartService.deleteOneFromCart("My Cart", id).thenReturn("redirect:/");
     }
 
 }
