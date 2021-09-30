@@ -2,6 +2,7 @@ package com.example.demo;
 
 import org.springframework.data.repository.query.ReactiveQueryByExampleExecutor;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 import reactor.core.publisher.Flux;
 
@@ -13,6 +14,8 @@ public interface ItemRepository extends ReactiveCrudRepository<Item, String>, Re
     Flux<Item> findByDescriptionContainingIgnoreCase(String partialName);
     // 이름 부분일치(NameContaining) And 설명 부분일치(DescriptionContaining) + 대소문자 구분없이(AllIgnoreCase)
     Flux<Item> findByNameContainingAndDescriptionContainingAllIgnoreCase(String partialName, String partialDesc);
+    // 이름 부분일치 또는 설명 부분일치 + 대소문자 구분없이
+    Flux<Item> findByNameContainingOrDescriptionContainingAllIgnoreCase(String partialName, String partialDesc);
 
     // 위와 같이 요구조건이 많아지면 메소드의 이름이 길어지기 때문에 다른방식을 사용한다. itemByExampleRepository,InventoryService 확인
 }

@@ -34,51 +34,51 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	HttpTraceRepository traceRepository() { // <2>
-		return new InMemoryHttpTraceRepository(); // <3>
-	}
+	// HttpTraceRepository traceRepository() { // <2>
+	// 	return new InMemoryHttpTraceRepository(); // <3>
+	// }
 	
-	@Bean
-	HttpTraceRepository springDataTraceRepository(HttpTraceWrapperRepository repository) {
-		return new SpringDataHttpTraceRepository(repository);
-	}
+	// @Bean
+	// HttpTraceRepository springDataTraceRepository(HttpTraceWrapperRepository repository) {
+	// 	return new SpringDataHttpTraceRepository(repository);
+	// }
 
-	static Converter<Document, HttpTraceWrapper> CONVERTER = //
-			new Converter<Document, HttpTraceWrapper>() { //
-				@Override
-				public HttpTraceWrapper convert(Document document) {
-					Document httpTrace = document.get("httpTrace", Document.class);
-					Document request = httpTrace.get("request", Document.class);
-					Document response = httpTrace.get("response", Document.class);
+	// static Converter<Document, HttpTraceWrapper> CONVERTER = //
+	// 		new Converter<Document, HttpTraceWrapper>() { //
+	// 			@Override
+	// 			public HttpTraceWrapper convert(Document document) {
+	// 				Document httpTrace = document.get("httpTrace", Document.class);
+	// 				Document request = httpTrace.get("request", Document.class);
+	// 				Document response = httpTrace.get("response", Document.class);
 
-					return new HttpTraceWrapper(new HttpTrace( //
-							new HttpTrace.Request( //
-									request.getString("method"), //
-									URI.create(request.getString("uri")), //
-									request.get("headers", Map.class), //
-									null),
-							new HttpTrace.Response( //
-									response.getInteger("status"), //
-									response.get("headers", Map.class)),
-							httpTrace.getDate("timestamp").toInstant(), //
-							null, //
-							null, //
-							httpTrace.getLong("timeTaken")));
-				}
-			};
-	// end::custom-1[]
+	// 				return new HttpTraceWrapper(new HttpTrace( //
+	// 						new HttpTrace.Request( //
+	// 								request.getString("method"), //
+	// 								URI.create(request.getString("uri")), //
+	// 								request.get("headers", Map.class), //
+	// 								null),
+	// 						new HttpTrace.Response( //
+	// 								response.getInteger("status"), //
+	// 								response.get("headers", Map.class)),
+	// 						httpTrace.getDate("timestamp").toInstant(), //
+	// 						null, //
+	// 						null, //
+	// 						httpTrace.getLong("timeTaken")));
+	// 			}
+	// 		};
+	// // end::custom-1[]
 
-	// tag::custom-2[]
-	@Bean
-	public MappingMongoConverter mappingMongoConverter(MongoMappingContext context) {
+	// // tag::custom-2[]
+	// @Bean
+	// public MappingMongoConverter mappingMongoConverter(MongoMappingContext context) {
 
-		MappingMongoConverter mappingConverter = //
-				new MappingMongoConverter(NoOpDbRefResolver.INSTANCE, context); // <1>
+	// 	MappingMongoConverter mappingConverter = //
+	// 			new MappingMongoConverter(NoOpDbRefResolver.INSTANCE, context); // <1>
 
-		mappingConverter.setCustomConversions( // <2>
-				new MongoCustomConversions(Collections.singletonList(CONVERTER))); // <3>
+	// 	mappingConverter.setCustomConversions( // <2>
+	// 			new MongoCustomConversions(Collections.singletonList(CONVERTER))); // <3>
 
-		return mappingConverter;
-	}
+	// 	return mappingConverter;
+	// }
 
 }

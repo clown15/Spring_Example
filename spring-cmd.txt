@@ -1,0 +1,5 @@
+run
+./mvnw sping-boot:run or ./mvnw clean spring-boot:run
+
+test run + create API docs
+./mvnw clean prepare-package
